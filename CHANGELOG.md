@@ -21,3 +21,4 @@ All notable changes to ClockFence are documented here. The format follows [Keep 
 - Staff login and the clock page: an installable web app that reads the location once, opens the camera only with a Clock token, scans the Poster and shows each Clock failure in the Staff member's language.
 - QR scanning on iPhone and iPad through a jsQR fallback that loads only when the browser has no built-in QR reader.
 - Project skills for Claude Code: `add-clock-failure` and `clock-flow-change`.
+- Password reset for Staff members (/forgot-password) and for the admin panel; deactivating a Staff member ends their sessions.
