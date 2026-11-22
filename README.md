@@ -4,7 +4,7 @@
 
 Staff clock in and out with their own phone, with no app to install. The phone's location is checked against the staff member's own Site first. Only a pass issues a single-use token, and only then does the camera open to scan the static QR poster at the entrance. The security lives in that order of steps, not in the QR code.
 
-> **Status: early development.** Clocking in and out works end to end (Sites, Staff members, Posters, the clock page). The Register, Manual overrides and reports come next in milestone M2. See the [milestones](https://github.com/fiqahmad/clockfence-qr-attendance-geofence/milestones) for progress.
+> **Status: early development, not production-ready until v1.0.** Clocking in and out works end to end (Sites, Staff members, Posters, the clock page). The Register, Manual overrides and payroll exports come next in milestone M2, so do not rely on it for payroll yet. See the [milestones](https://github.com/fiqahmad/clockfence-qr-attendance-geofence/milestones) for progress.
 
 ## Features (v1.0)
 

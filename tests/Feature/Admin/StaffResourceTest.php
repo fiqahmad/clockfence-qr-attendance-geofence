@@ -9,6 +9,7 @@ use App\Models\Site;
 use App\Models\User;
 use App\Notifications\StaffInvitation;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
@@ -104,4 +105,19 @@ it('keeps inactive admins out of the panel', function () {
     $this->admin->deactivate();
 
     $this->actingAs($this->admin)->get('/admin')->assertForbidden();
+});
+
+it('ends every session and remember-me login when a staff member is deactivated', function () {
+    $staffMember = User::factory()->withRole(Role::Staff)->create(['remember_token' => 'old-token']);
+    DB::table('sessions')->insert([
+        'id' => 'session-of-staff-member',
+        'user_id' => $staffMember->id,
+        'payload' => '',
+        'last_activity' => now()->timestamp,
+    ]);
+
+    $staffMember->deactivate();
+
+    expect(DB::table('sessions')->where('user_id', $staffMember->id)->exists())->toBeFalse()
+        ->and($staffMember->fresh()->remember_token)->not->toBe('old-token');
 });

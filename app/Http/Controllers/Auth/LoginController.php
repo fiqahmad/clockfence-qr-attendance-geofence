@@ -18,7 +18,7 @@ class LoginController extends Controller
     public function create(): Response
     {
         return Inertia::render('Auth/Login', [
-            'copy' => __('login'),
+            'copy' => [...__('login'), 'forgot_link' => __('password_reset.forgot_link')],
         ]);
     }
 

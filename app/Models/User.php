@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -76,11 +78,17 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Stop this Staff member logging in or Clocking. Staff members are never deleted.
+     * Stop this Staff member logging in or Clocking, and end any session they have
+     * open, including "remember me". Staff members are never deleted.
      */
     public function deactivate(): void
     {
-        $this->forceFill(['status' => StaffStatus::Inactive])->save();
+        $this->forceFill([
+            'status' => StaffStatus::Inactive,
+            'remember_token' => Str::random(60),
+        ])->save();
+
+        DB::table(config('session.table', 'sessions'))->where('user_id', $this->id)->delete();
     }
 
     /**

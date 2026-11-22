@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { request } from '@/routes/password';
 import { store } from '@/routes/login';
 
 defineProps<{
@@ -10,8 +12,11 @@ defineProps<{
         password: string;
         remember: string;
         submit: string;
+        forgot_link: string;
     };
 }>();
+
+const status = computed(() => usePage().props.status as string | null);
 </script>
 
 <template>
@@ -25,6 +30,13 @@ defineProps<{
             <h1 class="text-xl font-semibold">{{ copy.title }}</h1>
             <p class="mt-1 text-sm text-stone-600 dark:text-stone-400">
                 {{ copy.intro }}
+            </p>
+
+            <p
+                v-if="status"
+                class="mt-4 rounded-lg bg-green-50 p-3 text-sm text-green-800 dark:bg-green-950 dark:text-green-300"
+            >
+                {{ status }}
             </p>
 
             <Form
@@ -75,6 +87,12 @@ defineProps<{
                     {{ copy.submit }}
                 </button>
             </Form>
+
+            <Link
+                :href="request()"
+                class="mt-4 block text-center text-sm text-stone-600 underline dark:text-stone-400"
+                >{{ copy.forgot_link }}</Link
+            >
         </main>
     </div>
 </template>
